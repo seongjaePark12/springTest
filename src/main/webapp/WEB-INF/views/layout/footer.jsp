@@ -2,18 +2,18 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn"%>
 <c:set var="ctp" value="${pageContext.request.contextPath}" />
+<!DOCTYPE html>
 <html>
 <head>
-	<title>Home</title>
+<meta charset="UTF-8">
+<title>footer</title>
+<jsp:include page="/WEB-INF/views/include/bs4.jsp"/>
 </head>
 <body>
-<h1>
-	Hello world!  
-</h1>
-
-<P>  The time on the server is ${serverTime}. </P>
-<p>
-	<a href="${ctp}/tiles/login">로그인</a>
-</p>
+<p><br/></p>
+<div style="width:100%; height:80px; background-color: gray; text-align:center;">
+	<br/>
+	<h3>이곳은 Footer 영역입니다.</h3>
+</div>
 </body>
 </html>
