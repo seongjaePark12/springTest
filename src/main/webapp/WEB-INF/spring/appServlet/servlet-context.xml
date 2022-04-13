@@ -15,12 +15,12 @@
 
 	<!-- Handles HTTP GET requests for /resources/** by efficiently serving up static resources in the ${webappRoot}/resources directory -->
 	<resources mapping="/resources/**" location="/resources/" />
-	<resources mapping="/images/**" location="/resources/images/" />
+	<!-- <resources mapping="/images/**" location="/resources/images/" />
 	<resources mapping="/pds/**" location="/resources/data/pds/" />
 	
 	<resources mapping="/css/**" location="/resources/css/" />
 	<resources mapping="/js/**" location="/resources/js/" />
-	<resources mapping="/font/**" location="/resources/font/" />
+	<resources mapping="/font/**" location="/resources/font/" /> -->
 
 	<!-- Resolves views selected for rendering by @Controllers to .jsp resources in the /WEB-INF/views directory -->
 	<beans:bean class="org.springframework.web.servlet.view.InternalResourceViewResolver">
@@ -72,5 +72,8 @@
 			<beans:ref bean="adminInterceptor"/>
 		</interceptor>	
 	</interceptors>
+	
+	<!-- BCryptPasswordEncoder객체를 Bean으로 등록 -->
+	<beans:bean id="bCryptPasswordEncoder" class="org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder"/>
 	
 </beans:beans>

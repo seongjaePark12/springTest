@@ -1,11 +1,20 @@
 package com.spring.springTest;
 
+import java.util.List;
+
 import javax.servlet.http.HttpSession;
 
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
+import org.springframework.validation.ObjectError;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.servlet.ModelAndView;
+
+import com.spring.springTest.vo.LombokVO;
+import com.spring.springTest.vo.ValidatorVO;
 
 @Controller
 @RequestMapping("/tiles")
@@ -43,7 +52,7 @@ public class TilesController {
 		return "redirect:/"; 
 	}
 	
-	// 로그인후 메일화면으로 이동
+	// 로그인후 메인화면으로 이동
 	@RequestMapping(value="/tilesMain", method = RequestMethod.GET)
 	public ModelAndView tilesMainGet(ModelAndView mv) {
 		mv.setViewName("main/tilesMain");
@@ -78,5 +87,54 @@ public class TilesController {
 		System.out.println("이곳은 관리자 컨트롤러입니다");
 		mv.setViewName("admin/adminList");
 		return mv;
+	}
+	// validator(데이터 검증)테스트
+	@RequestMapping(value="/validatorForm", method = RequestMethod.GET)
+	public String validatorFormGet() {
+		return "/validator/validatorForm";
+	}
+	// validator(데이터 검증)테스트
+	@RequestMapping(value="/validatorForm", method = RequestMethod.POST)
+	public String validatorFormPost(Model model, @Validated ValidatorVO vo, BindingResult bindingResult) {
+		System.out.println("아이디 : "+ vo.getMid());
+		System.out.println("비밀번호 : "+ vo.getPwd());
+		System.out.println("나이 : "+ vo.getAge());
+		System.out.println("error : "+ bindingResult.hasErrors());
+		
+		/*
+		if(vo.getMid().equals("")) {
+			System.out.println("아이디가 비어있습니다");
+		}
+		*/
+		
+		if(bindingResult.hasErrors()) { //bindingResult.hasErrors() 결과값이 true이면 앞에서 전송한 
+			List<ObjectError> list = bindingResult.getAllErrors();
+			for(ObjectError e : list) {
+				System.out.println("메세지 : " +e.getDefaultMessage());
+			}
+			return "redirect:/tiles/validatorForm";
+		}
+		
+		model.addAttribute("vo", vo);
+		return "/validator/validatorFormOk";
+	}
+	
+	@RequestMapping(value="/lombokForm", method = RequestMethod.GET)
+	public String lombokFormGet() {
+		return"/lombok/lombokForm";
+	}
+	
+	@RequestMapping(value="/lombokForm", method = RequestMethod.POST)
+	public String lombokFormPost(Model model, LombokVO vo) {
+		
+		vo.setSu1(100);
+		vo.setSu2(200);
+		vo.setOp("+");
+		String hap = vo.getSu1() +vo.getOp() +vo.getSu2();
+		
+		model.addAttribute("hap", hap);
+		model.addAttribute("vo",vo);
+		
+		return"/lombok/lombokFormOk";
 	}
 }
